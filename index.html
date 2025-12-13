@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchbook</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="background-overlay"></div>
+
+    <main id="app-container">
+        
+        <section id="inicio" class="page split-screen active">
+            <div class="split-image">
+            </div>
+            <div class="split-content">
+                <div class="logo-area">
+                    <h1>Bem-vindo(a) ao Matchbook!</h1>
+                </div>
+                
+                <div class="auth-buttons">
+                    <h3>JÁ POSSUI UMA CONTA?</h3>
+                    <button class="btn-primary" onclick="mostrarPagina('login')">REALIZE SEU LOGIN</button>
+                    
+                    <div class="divider">OU</div>
+                    
+                    <button class="btn-outline" onclick="mostrarPagina('cadastro')">CADASTRE-SE</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="login" class="page centered-card">
+            <div class="card-header">
+                <h2>Realize seu Login</h2>
+                <p>Bem-vindo de volta!</p>
+            </div>
+            <form id="form-login">
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" id="log_email" placeholder="seu@email.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Senha</label>
+                    <input type="password" id="log_senha" placeholder="********" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="mostrarPagina('inicio')">← Voltar</button>
+                    <button type="submit" class="btn-primary">Entrar</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="cadastro" class="page centered-card">
+            <div class="card-header">
+                <h2>Crie sua conta</h2>
+                <p>Comece a trocar livros hoje mesmo.</p>
+            </div>
+            <form id="form-cadastro">
+                <div class="input-group">
+                    <label>Nome</label>
+                    <input type="text" id="cad_nome" required>
+                </div>
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" id="cad_email" required>
+                </div>
+                <div class="input-group">
+                    <label>Telefone</label>
+                    <input type="tel" id="cad_telefone" placeholder="(00) 00000-0000" required>
+                </div>
+                <div class="input-group">
+                    <label>Senha</label>
+                    <input type="password" id="cad_senha" required>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Cidade</label>
+                        <input type="text" id="cad_cidade" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Estado</label>
+                        <input type="text" id="cad_estado" required>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="mostrarPagina('inicio')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Cadastrar</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="principal" class="page dashboard">
+            <header class="top-bar">
+                <div class="user-welcome">Olá, <span id="user-name">Leitor</span></div>
+                <button class="btn-small-outline" onclick="logout()">Sair ✕</button>
+            </header>
+            
+            <div class="dashboard-grid">
+                <div class="dash-card" onclick="mostrarPagina('buscar')">
+                    <div class="icon">🔍</div>
+                    <h3>Buscar Matches</h3>
+                    <p>Encontre pessoas compatíveis.</p>
+                </div>
+                <div class="dash-card" onclick="mostrarPagina('meuslivros')">
+                    <div class="icon">📚</div>
+                    <h3>Seus Livros</h3>
+                    <p>Gerencie o que você ofrece y desea.</p>
+                </div>
+                <div class="dash-card" onclick="mostrarPagina('perfil')">
+                    <div class="icon">👤</div>
+                    <h3>Meu Perfil</h3>
+                    <p>Edite seus dados pessoais.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="buscar" class="page centered-card">
+            <div class="card-header">
+                <h2>Buscar Matches</h2>
+                <p>Vamos encontrar sua próxima leitura.</p>
+            </div>
+            <div class="search-area">
+                <button onclick="iniciarBusca()" class="btn-primary full-width pulse-button">ENCONTRAR MATCHES</button>
+            </div>
+            <button onclick="mostrarPagina('principal')" class="btn-ghost full-width">← Voltar ao menu</button>
+        </section>
+
+        <section id="resultado-match" class="page centered-card">
+            <h2 id="match-status" class="status-title">Procurando...</h2>
+            
+            <div id="match-card" class="match-profile-card">
+                </div>
+
+            <div id="no-match-options" style="display:none;" class="options-list">
+                <p>Sem compatibilidade exata no momento.</p>
+                <button class="btn-outline full-width" onclick="mostrarOpcoesMenosCompativeis()">Ver opções similares</button>
+                <button class="btn-ghost full-width" onclick="mostrarPagina('principal')">← Voltar ao menu</button>
+            </div>
+            
+            <button id="btn-voltar-busca" onclick="mostrarPagina('principal')" class="btn-ghost full-width" style="display:none;">← Voltar</button>
+        </section>
+
+        <section id="meuslivros" class="page dashboard-internal">
+            <header class="internal-header">
+                <button onclick="mostrarPagina('principal')" class="btn-back-header">
+                    <span>←</span> Voltar
+                </button>
+                <h2>Meus Livros</h2>
+            </header>
+
+            <div class="lists-container">
+                <div class="list-section">
+                    <div class="list-header">
+                        <h3>Ofereço</h3>
+                        <button class="btn-small" onclick="mostrarPagina('cadastrar-oferecido')">+ Adicionar</button>
+                    </div>
+                    <div id="livros-ofereco" class="books-list"></div>
+                </div>
+                
+                <div class="list-section">
+                    <div class="list-header">
+                        <h3>Quero</h3>
+                        <button class="btn-small" onclick="mostrarPagina('cadastrar-desejado')">+ Adicionar</button>
+                    </div>
+                    <div id="livros-quero" class="books-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cadastrar-oferecido" class="page centered-card">
+            <div class="card-header">
+                <h2>Oferecer Livro</h2>
+            </div>
+            <form id="form-cad-oferecido">
+                <div class="input-group">
+                    <label>Título</label>
+                    <input type="text" id="of_titulo" required>
+                </div>
+                <div class="input-group">
+                    <label>Autor</label>
+                    <input type="text" id="of_autor" required>
+                </div>
+                <div class="input-group">
+                    <label>Edição (Ano)</label>
+                    <input type="text" id="of_edicao">
+                </div>
+                <div class="input-group">
+                    <label>Estado</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="condicao_of" value="Novo" required> Novo</label>
+                        <label><input type="radio" name="condicao_of" value="Bom"> Bom</label>
+                        <label><input type="radio" name="condicao_of" value="Razoável"> Razoável</label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="mostrarPagina('meuslivros')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="cadastrar-desejado" class="page centered-card">
+            <div class="card-header">
+                <h2>Desejar Livro</h2>
+            </div>
+            <form id="form-cad-desejado">
+                <div class="input-group">
+                    <label>Título</label>
+                    <input type="text" id="de_titulo" required>
+                </div>
+                <div class="input-group">
+                    <label>Autor</label>
+                    <input type="text" id="de_autor">
+                </div>
+                <div class="input-group">
+                    <label>Estado Aceito</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="condicao_de" value="Novo"> Novo</label>
+                        <label><input type="radio" name="condicao_de" value="Bom"> Bom</label>
+                        <label><input type="radio" name="condicao_de" value="Razoável"> Razoável</label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="mostrarPagina('meuslivros')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="perfil" class="page centered-card">
+            <div class="card-header">
+                <h2>Meu Perfil</h2>
+            </div>
+            <div id="perfil-info" class="profile-details">
+                </div>
+            <button onclick="mostrarPagina('editar-perfil')" class="btn-outline full-width">Editar Informações</button>
+            <button onclick="mostrarPagina('principal')" class="btn-ghost full-width">← Voltar</button>
+        </section>
+
+        <section id="editar-perfil" class="page centered-card">
+            <div class="card-header">
+                <h2>Editar Perfil</h2>
+            </div>
+            <form id="form-editar-perfil">
+                <div class="input-group">
+                    <label>Nome</label>
+                    <input type="text" id="edit_nome" required>
+                </div>
+                <div class="input-group">
+                    <label>Telefone</label>
+                    <input type="tel" id="edit_telefone" required>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Cidade</label>
+                        <input type="text" id="edit_cidade" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Estado</label>
+                        <input type="text" id="edit_estado" required>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="mostrarPagina('perfil')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
